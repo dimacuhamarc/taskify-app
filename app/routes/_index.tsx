@@ -1,4 +1,5 @@
-import type { MetaFunction } from "@remix-run/node";
+import { type MetaFunction } from "@remix-run/node";
+import Taskify from "./taskify";
 
 export const meta: MetaFunction = () => {
   return [
@@ -8,9 +9,9 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  return (
-    <div className="bg-gray-900 text-bg-gray-900-content h-full page-container gap-6">
-      <button className="btn btn-neutral">Continue to App</button>
-    </div>
+  return ( 
+    <>
+      <Taskify />
+    </>
   );
 }

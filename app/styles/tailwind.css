@@ -15,3 +15,31 @@ body > div {
 .page-container {
   @apply flex flex-col items-center justify-center;
 }
+
+* {
+  /* outline: red 1px solid; */
+}
+
+.bg-animate {
+  background-size: 500%;
+
+  -webkit-animation: bg-animated 15s ease-in-out infinite;
+  -moz-animation: bg-animated 15s ease-in-out infinite;
+  animation: bg-animated 15s ease-in-out infinite;
+}
+
+@keyframes bg-animated {
+  0%{
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.btn {
+  @apply text-lg font-medium;
+}
