@@ -1,6 +1,6 @@
 // import { cssBundleHref } from "@remix-run/css-bundle";
 
-import styles from "~/tailwind.css";
+import styles from "~/styles/tailwind.css";
 import type { LinksFunction } from "@remix-run/node";
 import {
   Links,
@@ -21,14 +21,14 @@ export const links: LinksFunction = () => [
 
 export default function App() {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="taskify">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="h-screen w-screen">
         <Outlet />
         <ScrollRestoration />
         <Scripts />
