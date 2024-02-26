@@ -10,6 +10,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import Navbar from "./components/navbar";
 
 // export const links: LinksFunction = () => [
 //   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
@@ -25,10 +26,15 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+          href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+          rel="stylesheet"
+        />
         <Meta />
         <Links />
       </head>
       <body className="h-screen w-screen">
+        <Navbar />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
