@@ -43,3 +43,11 @@ body > div {
 .btn {
   @apply text-lg font-medium;
 }
+
+.form-transition {
+  @apply transition-colors ease-in-out;
+}
+
+.text-transition {
+  @apply transition-all ease-in-out opacity-55 hover:opacity-100;
+}

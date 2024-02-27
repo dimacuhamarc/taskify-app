@@ -11,6 +11,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@hookform/error-message": "^2.0.1",
     "@remix-run/css-bundle": "^2.7.2",
     "@remix-run/node": "^2.7.2",
     "@remix-run/react": "^2.7.2",
@@ -21,7 +22,9 @@
     "isbot": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tailwind-merge": "^2.2.1"
+    "react-hook-form": "^7.50.1",
+    "tailwind-merge": "^2.2.1",
+    "tailwindcss-animated": "^1.0.1"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.7.2",
@@ -36,6 +39,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "tailwindcss": "^3.4.1",
+    "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.1.6"
   },
   "engines": {
