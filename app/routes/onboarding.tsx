@@ -166,13 +166,3 @@ const SignUp = ({type}: SignInUpProps) => {
     </form>
   );
 }
-
-const ToastAlert = () => {
-  return (
-    <div className="toast toast-center">
-      <div className="alert alert-info">
-        <span>New mail arrived.</span>
-      </div>
-    </div>
-  );
-}
