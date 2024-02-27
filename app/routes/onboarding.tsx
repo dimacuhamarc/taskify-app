@@ -132,12 +132,12 @@ const SignUp = ({type}: SignInUpProps) => {
           />
           <ErrorMessage
             errors={errors}
-            name="password"
+            name="username"
             render={({ message }) => <div className="alert alert-error flex flex-col"><span>{message}</span></div>}
           />
           <ErrorMessage
             errors={errors}
-            name="username"
+            name="password"
             render={({ message }) => <div className="alert alert-error flex flex-col"><span>{message}</span></div>}
           />
         </>
