@@ -10,7 +10,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import Navbar from "./components/navbar";
+// import Navbar from "./components/navbar";
 
 // export const links: LinksFunction = () => [
 //   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
@@ -34,7 +34,7 @@ export default function App() {
         <Links />
       </head>
       <body className="h-screen w-screen">
-        <Navbar />
+        {/* <Navbar /> */}
         <Outlet />
         <ScrollRestoration />
         <Scripts />

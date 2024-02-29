@@ -5,6 +5,9 @@ import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import Icon from '~/components/icon';
+import AlertBox from '~/components/alertbox';
+
+import { SignInHandler } from '~/services/user-services';
 
 import { OnbType, OnboardingMsg, OnboardingTtl, OnboardingButton, SignInUpProps, SignInInput, SignUpInput } from '~/utilities/onboardingtypes';
 
@@ -67,26 +70,36 @@ export default function Onboarding() {
           </button>
         </div>
       </div>
-      
+      {/* <button
+        onClick={SignOutHandler}
+        className='btn btn-neutral btn-primary animate-fade-up animate-once animate-ease-out'
+      >
+        Sign Out
+      </button> */}
     </div>
   );
 }
 
 const SignIn = ({ type }: SignInUpProps) => {
   const { register, handleSubmit, formState: {errors} } = useForm<SignInInput>({criteriaMode:"all"});
-  const onSubmit: SubmitHandler<SignInInput> = (data) => {
-    console.log(data);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const onSubmit: SubmitHandler<SignInInput> = async (data) => {
+    setErrorMessage(await SignInHandler(data));
+    setTimeout(() => setErrorMessage(null), 5000);
   };
 
   return (
     <form key={type} onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-center gap-6 mt-6 animate-fade animate-once animate-ease-in">
+      {errorMessage && <AlertBox type='error'>{errorMessage}</AlertBox>}
       <div className="toast toast-center">
         {errors && 
         <>
           <ErrorMessage
             errors={errors}
             name="email"
-            render={({ message }) => <div className="alert alert-error flex flex-col"><span>{message}</span></div>}
+            
+            render={({ message }) => <div className="alert alert-warning flex flex-col"><span>{message}</span></div>}
           />
           <ErrorMessage
             errors={errors}
@@ -104,7 +117,7 @@ const SignIn = ({ type }: SignInUpProps) => {
       
       <label className="input input-ghost form-transition input-primary flex items-center gap-2">
         <Icon iconName="key-fill" />
-        <input {...register("password", {required: "Password is Required", pattern: {value: passwordRegex, message: "Password must contain 8 alphanumeric characters" }})} type="password" className="grow" placeholder="Password" />
+        <input {...register("password", {required: "Password is Required"})} type="password" className="grow" placeholder="Password" />
       </label>
       <input
         type='submit'
@@ -163,6 +176,7 @@ const SignUp = ({type}: SignInUpProps) => {
       >
         Sign Up
       </button>
+      
     </form>
   );
 }

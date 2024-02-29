@@ -24,13 +24,10 @@ export default function Taskify() {
         </div>
         <div className="flex flex-col justify-center gap-6 mt-6">
           <Link
-            to="/signin"
+            to="/onboarding"
             className="btn btn-outline btn-neutral btn-primary"
           >
-            Sign In
-          </Link>
-          <Link to="/join" className="btn btn-primary">
-            Don&apos;t have an Account? Sign Up
+            Continue To App
           </Link>
         </div>
         <p className="opacity-55 text-base pt-4">
