@@ -1,28 +1,28 @@
 import axios from 'axios';
 
-const API_URL = 'https://taskify-ipmy.onrender.com';
+export const API_URL = 'https://taskify-ipmy.onrender.com';
 
-export const SignInHandler = async (user) => {
-  try {
-    const response = await axios.post(`${API_URL}/signin`, {
-      user: {
-        email: user.email,
-        password: user.password
-      }
-    })
-    const userData = response.data.status.data.user;
-    const userHeader = response.headers['authorization'];
-    // console.log(userData);
-    // console.log(userHeader);
-    sessionStorage.setItem('user', JSON.stringify(userData));
-    sessionStorage.setItem('token', userHeader);
-    return response.data.status;
-  } catch (error) {
-    // console.log(error.response.status, error.message, error.response.data.error);
-    // alert(error.response.data.error);
-    return (error.response.data.error).toString();
-  }
-}
+// export const SignInHandler = async (user) => {
+//   try {
+//     const response = await axios.post(`${API_URL}/signin`, {
+//       user: {
+//         email: user.email,
+//         password: user.password
+//       }
+//     })
+//     const userData = response.data.status.data.user;
+//     const userHeader = response.headers['authorization'];
+//     // console.log(userData);
+//     // console.log(userHeader);
+//     sessionStorage.setItem('user', JSON.stringify(userData));
+//     sessionStorage.setItem('token', userHeader);
+//     return response.data.status;
+//   } catch (error) {
+//     // console.log(error.response.status, error.message, error.response.data.error);
+//     // alert(error.response.data.error);
+//     return (error.response.data.error).toString();
+//   }
+// }
 
 export const SignOutHandler = async () => {
   try {
@@ -53,7 +53,7 @@ export const SignUpHandler = async (user) => {
         name: user.name
       }
     })
-    // console.log(response);
+    console.log(response.data);
     return response.data.status;
   } catch (error) {
     console.log(error.response.status, error.message, error.response.data.error);

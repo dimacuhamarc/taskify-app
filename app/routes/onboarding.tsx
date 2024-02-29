@@ -1,15 +1,18 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import type { MetaFunction } from '@remix-run/node';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import Icon from '~/components/icon';
 import AlertBox from '~/components/alertbox';
 
-import { SignInHandler } from '~/services/user-services';
+import { API_URL } from '~/services/user-services';
 
-import { OnbType, OnboardingMsg, OnboardingTtl, OnboardingButton, SignInUpProps, SignInInput, SignUpInput } from '~/utilities/onboardingtypes';
+import { OnbType, OnboardingMsg, OnboardingTtl, OnboardingButton, SignInUpProps, SignInInput, SignUpInput, UserData } from '~/utilities/onboardingtypes';
+
+import { useNavigate } from '@remix-run/react';
 
 export const meta: MetaFunction = () => {
   return [
@@ -27,6 +30,26 @@ export default function Onboarding() {
   const [onboardingMsg, setOnboardingMsg] = useState<string>(OnboardingMsg[type]);
   const [onboardingTitle, setOnboardingTitle] = useState<string>(OnboardingTtl[type]);
   const [onboardingButton, setOnboardingButton] = useState<string>(OnboardingButton[type]);
+  const [userdata, setUserdata] = useState<UserData | null>(null);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = sessionStorage.getItem("user");
+    const token = sessionStorage.getItem("token");
+    if (user && token) {
+      const userparsed = JSON.parse(user);
+      setUserdata(userparsed);
+      console.log(userparsed);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userdata) {
+      navigate('/');
+    }
+  });
+  // UserHandling(userdata, navigate);
 
   const handleTypeClick = () => {
     if (type === 'SIGN_IN') {
@@ -70,35 +93,52 @@ export default function Onboarding() {
           </button>
         </div>
       </div>
-      {/* <button
-        onClick={SignOutHandler}
-        className='btn btn-neutral btn-primary animate-fade-up animate-once animate-ease-out'
-      >
-        Sign Out
-      </button> */}
     </div>
   );
 }
 
 const SignIn = ({ type }: SignInUpProps) => {
   const { register, handleSubmit, formState: {errors} } = useForm<SignInInput>({criteriaMode:"all"});
+  const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const onSubmit: SubmitHandler<SignInInput> = async (data) => {
-    setErrorMessage(await SignInHandler(data));
-    setTimeout(() => setErrorMessage(null), 5000);
+  const navigate = useNavigate();
+
+  const onSubmit: SubmitHandler<SignInInput> = (data) => {
+    handleSignin(data);
+    setTimeout(() => (setErrorMessage(null), setError(false)), 5000);
   };
 
+  async function handleSignin(user: SignInInput) {
+    try {
+      const response = await axios.post(`${API_URL}/signin`, {
+        user: {
+          email: user.email,
+          password: user.password
+        }
+      })
+      const userData = response.data.status.data.user;
+      const userHeader = response.headers['authorization'];
+      sessionStorage.setItem('user', JSON.stringify(userData));
+      sessionStorage.setItem('token', userHeader);
+      setError(false);
+      setErrorMessage(null);
+      navigate('/');
+    } catch (error) {
+      setError(true);
+      setErrorMessage('Invalid Credentials');
+    }
+  }
+  
   return (
     <form key={type} onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-center gap-6 mt-6 animate-fade animate-once animate-ease-in">
-      {errorMessage && <AlertBox type='error'>{errorMessage}</AlertBox>}
+      {error && <AlertBox type='error'>{errorMessage}</AlertBox>}
       <div className="toast toast-center">
         {errors && 
         <>
           <ErrorMessage
             errors={errors}
             name="email"
-            
             render={({ message }) => <div className="alert alert-warning flex flex-col"><span>{message}</span></div>}
           />
           <ErrorMessage
@@ -117,8 +157,9 @@ const SignIn = ({ type }: SignInUpProps) => {
       
       <label className="input input-ghost form-transition input-primary flex items-center gap-2">
         <Icon iconName="key-fill" />
-        <input {...register("password", {required: "Password is Required"})} type="password" className="grow" placeholder="Password" />
+        <input {...register("password", {required: "Password is Required", pattern: {value: passwordRegex, message: "Password must contain 8 alphanumeric characters" }})} type="password" className="grow" placeholder="Password" />
       </label>
+
       <input
         type='submit'
         value='Sign In'
@@ -130,13 +171,36 @@ const SignIn = ({ type }: SignInUpProps) => {
 
 const SignUp = ({type}: SignInUpProps) => {
   const { register, handleSubmit, formState: {errors} } = useForm<SignUpInput>({criteriaMode:"all"});
+  const [error, setError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const onSubmit: SubmitHandler<SignUpInput> = (data) => {
-    console.log(data);
+    SignUpHandler(data);
   };
+
+  async function SignUpHandler(user:SignUpInput) {
+    try {
+      await axios.post(`${API_URL}/signup`, {
+        user: {
+          email: user.email,
+          password: user.password,
+          name: user.name
+        }
+      })
+      setError(false);
+      setErrorMessage(null);
+      location.reload();
+    } catch (error) {
+      setError(true);
+      setErrorMessage('Invalid Email or Password');
+    }
+  }
+  
   return (
     <form key={type} onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-center gap-6 mt-6 animate-fade animate-once animate-ease-in">
+      {error && <AlertBox type='error'>{errorMessage}</AlertBox>}
       <div className="toast toast-center">
-        {errors && 
+        {
         <>
           <ErrorMessage
             errors={errors}
@@ -145,7 +209,7 @@ const SignUp = ({type}: SignInUpProps) => {
           />
           <ErrorMessage
             errors={errors}
-            name="username"
+            name="name"
             render={({ message }) => <div className="alert alert-error flex flex-col"><span>{message}</span></div>}
           />
           <ErrorMessage
@@ -164,19 +228,19 @@ const SignUp = ({type}: SignInUpProps) => {
 
       <label className="input input-ghost form-transition input-primary flex items-center gap-2">
         <Icon iconName="user-fill" />
-        <input {...register("username", {required: "Name is Required", minLength: {value: 3, message: "Name must be more than 3 letters"}, maxLength: {value: 15, message: "Name must be less than 16 letters"}, pattern: {value: nameRegex, message: "Name is Invalid" }})} type="text" className="grow" placeholder="Name" />
+        <input {...register("name", {required: "Name is Required", minLength: {value: 3, message: "Name must be more than 3 letters"}, maxLength: {value: 15, message: "Name must be less than 16 letters"}, pattern: {value: nameRegex, message: "Name is Invalid" }})} type="text" className="grow" placeholder="Name" />
       </label>
 
       <label className="input input-ghost form-transition input-primary flex items-center gap-2">
       <Icon iconName="key-fill" />
         <input {...register("password", {required: "Password is Required", pattern: {value: passwordRegex, message: "Password must contain 8 alphanumeric characters" }})} type="password" className="grow" placeholder="Password" />
       </label>
+
       <button
         className="btn btn-neutral btn-primary"
       >
         Sign Up
       </button>
-      
     </form>
   );
 }

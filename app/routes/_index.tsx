@@ -28,6 +28,7 @@ export default function Index() {
     if (user && token) {
       const userparsed = JSON.parse(user);
       setUserdata(userparsed);
+      console.log(userparsed);
       // console.log(userdata);
     }
   }, []);
