@@ -44,19 +44,19 @@ export const SignOutHandler = async () => {
   }
 }
 
-export const SignUpHandler = async (user) => {
-  try {
-    const response = await axios.post(`${API_URL}/signup`, {
-      user: {
-        email: user.email,
-        password: user.password,
-        name: user.name
-      }
-    })
-    console.log(response.data);
-    return response.data.status;
-  } catch (error) {
-    console.log(error.response.status, error.message, error.response.data.error);
-    return (error.response.data.error).toString();
-  }
-}
+// export const SignUpHandler = async (user) => {
+//   try {
+//     const response = await axios.post(`${API_URL}/signup`, {
+//       user: {
+//         email: user.email,
+//         password: user.password,
+//         name: user.name
+//       }
+//     })
+//     console.log(response.data);
+//     return response.data.status;
+//   } catch (error) {
+//     console.log(error.response.status, error.message, error.response.data.error);
+//     return (error.response.data.error).toString();
+//   }
+// }
