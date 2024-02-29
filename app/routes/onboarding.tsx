@@ -1,18 +1,31 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import type { MetaFunction } from '@remix-run/node';
 
+import { useNavigate } from '@remix-run/react';
+
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_URL } from '~/services/user-services';
+
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+
 import Icon from '~/components/icon';
 import AlertBox from '~/components/alertbox';
 
-import { API_URL } from '~/services/user-services';
-
-import { OnbType, OnboardingMsg, OnboardingTtl, OnboardingButton, SignInUpProps, SignInInput, SignUpInput, UserData } from '~/utilities/onboardingtypes';
-
-import { useNavigate } from '@remix-run/react';
+import { 
+  OnbType, 
+  OnboardingMsg, 
+  OnboardingTtl, 
+  OnboardingButton, 
+  SignInUpProps, 
+  SignInInput, 
+  SignUpInput, 
+  UserData,
+  emailRegex,
+  passwordRegex,
+  nameRegex
+} from '~/utilities/onboardingtypes';
 
 export const meta: MetaFunction = () => {
   return [
@@ -21,9 +34,7 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[a-zA-Z]).{8,}$/;
-const nameRegex = /^[a-zA-Z]+$/;
+
 
 export default function Onboarding() {
   const [type, setType] = useState<OnbType>('SIGN_IN');
@@ -77,9 +88,9 @@ export default function Onboarding() {
     <div className="bg-gradient-to-br from-gray-950 via-purple-950  to-gray-950 bg-animate h-full page-container gap-6 px-52">
       <div className="flex flex-col gap-4 text-center text-xl w-96">
         <div>
-          <p className='text-2xl animate-fade-up animate-once animate-ease-out' key={onboardingTitle}>{onboardingTitle}</p>
+          <p className='text-2xl font-semibold animate-fade-up animate-once animate-ease-out' key={onboardingTitle}>{onboardingTitle}</p>
           <span className='opacity-55'>
-            <p className="animate-fade animate-once animate-ease-in text-pretty" key={onboardingMsg}>{onboardingMsg}</p>
+            <p className="text-base animate-fade animate-once animate-ease-in text-pretty" key={onboardingMsg}>{onboardingMsg}</p>
           </span>
         </div>
         {type === 'SIGN_IN' ? <SignIn type={type} /> : <SignUp type={type} />}

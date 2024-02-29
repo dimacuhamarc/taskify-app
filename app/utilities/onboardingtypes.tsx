@@ -3,6 +3,10 @@ export type OnboardingTitles = Record<OnbType, string>;
 export type OnboardingMessages = Record<OnbType, string>;
 export type OnboardingButtons = Record<OnbType, string>;
 
+export const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+export const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[a-zA-Z]).{8,}$/;
+export const nameRegex = /^[a-zA-Z]+$/;
+
 export const OnboardingMsg: OnboardingMessages = {
   SIGN_UP: 'Dont miss out and start organizing your tasks now!',
   SIGN_IN: 'Welcome back! Sign in and start managing your tasks with ease.',
