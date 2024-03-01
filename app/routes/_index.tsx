@@ -1,9 +1,10 @@
 import { type MetaFunction } from "@remix-run/node";
-import Taskify from "./taskify";
-
 import { useEffect, useState } from "react";
 
-import { SignOutHandler } from "~/services/user-services";
+import Dashboard from "~/pages/dashboard";
+import Taskify from "~/pages/taskify";
+
+import { UserData } from "~/utilities/onboardingtypes";
 
 export const meta: MetaFunction = () => {
   return [
@@ -11,14 +12,6 @@ export const meta: MetaFunction = () => {
     { name: "description", content: "Welcome to Remix!" },
   ];
 };
-
-interface UserData {
-  id: number;
-  email: string;
-  name: string;
-  // Add other properties as needed
-}
-
 
 export default function Index() {
   const [userdata, setUserdata] = useState<UserData | null>(null);
@@ -28,19 +21,14 @@ export default function Index() {
     if (user && token) {
       const userparsed = JSON.parse(user);
       setUserdata(userparsed);
-      console.log(userparsed);
+      // console.log(userparsed);
       // console.log(userdata);
     }
   }, []);
   return (  
     <>
       {
-        userdata ? <div>{userdata.name}<button
-        onClick={SignOutHandler}
-        className='btn btn-neutral btn-primary animate-fade-up animate-once animate-ease-out'
-      >
-        Sign Out
-      </button></div> : <Taskify />
+        userdata ? <Dashboard propdata={userdata} /> : <Taskify />
       }
     </>
   );

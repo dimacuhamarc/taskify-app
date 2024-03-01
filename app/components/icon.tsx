@@ -1,12 +1,14 @@
+import { cn } from "~/utilities/tw-utils";
 
 type IconProps = {
   iconName: string;
+  className?: string;
 };
 
-const Icon = ({ iconName }: IconProps) => {
+const Icon = ({ iconName, className }: IconProps) => {
   return (
     <>
-      <i className={`ri-${iconName}`}></i>
+      <i className={cn(`ri-${iconName}`,className)}></i>
     </>
   );
 };
