@@ -13,6 +13,13 @@ export default {
   // assetsBuildDirectory: "public/build",
   // publicPath: "/build/",
   // serverBuildPath: "build/index.js",
-  
+  // routes(defineRoutes) {
+  //   return defineRoutes(route => {
+  //     route("/categories/:slug", "categories/[slug].tsx");
+  //   });
+  // },
+  // future: {
+  //   v2_routeConvention: true,
+  // }
 };
 

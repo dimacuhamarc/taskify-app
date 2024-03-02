@@ -57,14 +57,14 @@ body > div {
 }
 
 .sidebar {
-  @apply fixed h-full p-4 bg-primary rounded-r-2xl bg-opacity-5 backdrop-blur-xl ring-2 ring-primary cursor-pointer;
+  @apply fixed h-full p-4 bg-primary rounded-r-2xl bg-opacity-5 backdrop-blur-xl ring-2 ring-primary ;
 }
 
 .sidebar-item {
-  @apply flex items-center justify-center size-12 rounded-xl ring-1 ring-primary ring-opacity-50 hover:rounded-3xl hover:bg-primary hover:bg-opacity-90 hover:text-primary-content;
+  @apply flex items-center justify-center size-12 cursor-pointer rounded-xl ring-1 ring-primary ring-opacity-50 hover:rounded-3xl hover:bg-primary hover:bg-opacity-90 hover:text-primary-content;
 }
 
 
 .sidebar-animation {
-  @apply transition-all duration-300 ease-linear;
+  @apply transition-all duration-150 ease-linear;
 }

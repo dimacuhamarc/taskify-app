@@ -1,7 +1,7 @@
 import { cn } from "~/utilities/tw-utils";
 
 type IconProps = {
-  iconName: string;
+  iconName?: string;
   className?: string;
 };
 
